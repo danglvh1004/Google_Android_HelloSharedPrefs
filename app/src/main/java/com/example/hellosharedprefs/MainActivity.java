@@ -1,5 +1,6 @@
 package com.example.hellosharedprefs;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -25,6 +26,14 @@ public class MainActivity extends AppCompatActivity {
         mColor = ContextCompat.getColor(this,
                 R.color.default_background);
 
+        if (savedInstanceState != null) {
+            mCount = savedInstanceState.getInt(COUNT_KEY);
+            if (mCount != 0) {
+                mShowCountTextView.setText(String.format("%s", mCount));
+            }
+            mColor = savedInstanceState.getInt(COLOR_KEY);
+            mShowCountTextView.setBackgroundColor(mColor);
+        }
     }
 
     public void changeBackground(View view) {
@@ -45,5 +54,13 @@ public class MainActivity extends AppCompatActivity {
         mColor = ContextCompat.getColor(this,
                 R.color.default_background);
         mShowCountTextView.setBackgroundColor(mColor);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(COUNT_KEY, mCount);
+        outState.putInt(COLOR_KEY, mColor);
     }
 }
